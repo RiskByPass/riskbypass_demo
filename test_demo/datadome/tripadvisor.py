@@ -3,7 +3,7 @@ from curl_cffi import request
 import json
 
 # Your api key, get it from https://riskbypass.com
-api_key = '5e86cbd4-88d4-4898-a2f6-d3b5a18ea436'
+api_key = 'You api key'
 headers = {
     'Content-Type': 'application/json',
     'X-API-Key': api_key,
