@@ -36,14 +36,14 @@ Once registered, your personal API key will be shown on the dashboard.
 ## 💰 How to Get Credits  
 ## 💰 如何获取积分？
 
-- New accounts receive **600 free credits**  
-- Recharge price: **$1 (USDT) = 20,000 credits**  
+- New accounts receive **60000 free credits**  
+- Recharge price: **$1 (USDT) = 60,000 credits**  
 - To top up, please contact us via https://riskbypass.com/contact
 
 ---
 
-- 新注册账号将赠送 **600 积分**  
-- 充值价格：**1 美元（USDT） = 20000 积分**  
+- 新注册账号将赠送 **60000 积分**  
+- 充值价格：**1 美元（USDT） = 60000 积分**  
 - 充值请通过 https://riskbypass.com/contact 联系我们
 
 ---
