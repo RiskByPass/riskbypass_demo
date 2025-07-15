@@ -8,6 +8,14 @@ If you have any questions, please contact us via https://riskbypass.com/contact
 
 如果你有任何问题，请通过 https://riskbypass.com/contact 联系我们
 
+## 🚩How can I get a free API key?
+
+Go to https://riskbypass.com/dashboard and register an account, your will get 60000 free credits.
+
+## 🚩如何获取免费API Key？
+
+访问官网 https://riskbypass.com/dashboard 并注册账号，注册成功后将赠送 60000 积分。
+
 ## 🔍 How to Detect What Anti-Bot System a Site Uses  
 
 If you're not sure what anti-bot system the target website uses, follow these steps:
