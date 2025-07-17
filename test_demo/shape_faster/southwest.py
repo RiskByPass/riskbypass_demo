@@ -4,7 +4,7 @@ import base64
 import time
 
 api_key = 'Your API Key'
-proxy = "http://0c3f3099b120a1b81efd__cr.us:06fb85534744be76@gw.dataimpulse.com:823" # Your proxy
+proxy = "http://username:password@ip:port" # Your proxy
 
 def get_shape_params(shape_js_url, proxy):
     start_time = time.time()
