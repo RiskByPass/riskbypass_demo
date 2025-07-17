@@ -41,7 +41,7 @@ json_data = {
 
 print(f'Start send task to riskbypass...')
 start_time = time.time()
-response = request(method='POST', url='https://riskbypass.com/api/task/no_access/sync', headers=headers, json=json_data)
+response = request(method='POST', url='https://riskbypass.com/api/task/sync', headers=headers, json=json_data)
 end_time = time.time()
 print(f'Send task to riskbypass success! Time cost: {end_time - start_time} seconds')
 print(response.json())
