@@ -52,10 +52,10 @@ print(response.json())
 akm_cookies = response.json().get('result', {}).get('result')
 akm_cookies = json.loads(akm_cookies) # The akamai cookies of your want to request
 if not shape_headers:
-    raise Exception('未知错误')
+    raise Exception('Unknown error')
 else:
     for i in range(10):
-        print(f'第{i+1}次请求')
+        print(f'Request {i+1} times')
         target_data = '{"operationName":"getGiftCardBalance","query":"query getGiftCardBalance($cardNumber: String!, $pin: String!) { getGiftCardBalance(cardNumber: $cardNumber, pin: $pin) { amountAvailable cardNumber currencyCode } }","variables":{"cardNumber":"605143343251006036665","pin":"4786"}}'
         try:
             response = request(method=method, url=target_api, data=target_data, headers=shape_headers, impersonate='chrome136', proxies={'https':proxy}, cookies=akm_cookies)

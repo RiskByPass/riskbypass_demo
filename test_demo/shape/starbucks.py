@@ -26,10 +26,10 @@ response = requests.post('https://riskbypass.com/api/task/sync', headers=headers
 print(response.json())
 shape_headers = response.json().get('result', {}).get('result') # The shape headers of your want to request
 if not shape_headers:
-    raise Exception('未知错误')
+    raise Exception('Unknown error')
 else:
     for i in range(10):
-        print(f'第{i+1}次请求')
+        print(f'Request {i+1} times')
         target_data = json.dumps({
             'country': 'US',
             'locale': 'en-US',

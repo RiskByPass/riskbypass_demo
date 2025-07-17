@@ -27,10 +27,10 @@ response = requests.post('https://riskbypass.com/api/task/sync', headers=headers
 print(response.json())
 shape_headers = response.json().get('result', {}).get('result') # The shape headers of your want to request
 if not shape_headers:
-    raise Exception('未知错误')
+    raise Exception('Unknown error')
 else:
     for i in range(10):
-        print(f'第{i+1}次请求')
+        print(f'Request {i+1} times')
         target_data = '{"appSource":"3rdparty:OW","bookId":"22-5-2025-4-55-33-95977","currency":"USD","currentFlightIndex":1,"guests":[{"type":"adult","count":"1"},{"type":"child","count":"0"},{"type":"infant","count":"0"}],"showMemberExclusives":false,"trips":[{"order":1,"departure":"LAX","arrival":"YFC","departureDate":"2025-08-27"}],"isCommissionable":false,"promoCode":""}'
         try:
             response = request(method=method, url=target_api, data=target_data, headers=json.loads(shape_headers), impersonate='chrome136', proxies={'https':proxy})

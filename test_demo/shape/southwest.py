@@ -32,10 +32,10 @@ shape_headers.update({
     'x-user-experience-id': '371f78d2-ed3c-4123-a19c-c256116930c3',
 }) # The southwest's custom headers
 if not shape_headers:
-    raise Exception('未知错误')
+    raise Exception('Unknown error')
 else:
     for i in range(10):
-        print(f'第{i+1}次请求')
+        print(f'Request {i+1} times')
         target_data = '{"adultPassengersCount":"1","adultsCount":"1","departureDate":"2025-07-15","departureTimeOfDay":"ALL_DAY","destinationAirportCode":"OAK","fareType":"USD","from":"ISP,LGA","int":"HOMEQBOMAIR","originationAirportCode":"ISP","passengerType":"ADULT","promoCode":"","returnDate":"","returnTimeOfDay":"ALL_DAY","to":"OAK,SFO,SJC","tripType":"oneway","application":"air-booking","site":"southwest"}'
         try:
             response = request(method=method, url=target_api, data=target_data, headers=shape_headers, impersonate='chrome136', proxies={'https':proxy})

@@ -25,13 +25,13 @@ response = request(method='POST', url='https://riskbypass.com/api/task/sync', he
 print(response.json())
 shape_headers = response.json().get('result', {}).get('result')
 if not shape_headers:
-    raise Exception('未知错误')
+    raise Exception('Unknown error')
 else:
     shape_headers = json.loads(shape_headers) # The shape headers of your want to request
     shape_headers['accept'] = 'application/vnd.nord.review.default.v1+json' # The nordstrom's custom headers
     shape_headers['content-type'] = 'application/vnd.nord.review.default.v1+json'
     for i in range(10):
-        print(f'第{i+1}次请求')
+        print(f'Request {i+1} times')
         try:
             response = request(method=method, url=target_api, headers=shape_headers, impersonate='chrome136', proxies={'https':proxy})
             print(response.json())
