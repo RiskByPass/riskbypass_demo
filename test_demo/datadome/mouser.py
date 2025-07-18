@@ -2,7 +2,7 @@ import requests
 from curl_cffi import request
 import json
 
-api_key = 'Your api key' # Your api key
+api_key = 'Your API Key' # Your api key
 headers = {
     'Content-Type': 'application/json',
     'X-API-Key': api_key,
@@ -39,10 +39,10 @@ response = requests.post('https://riskbypass.com/api/task/sync', headers=headers
 print(response.json())
 datadome_cookie = response.json().get('result', {}).get('result')
 if not datadome_cookie:
-    raise Exception('未知错误')
+    raise Exception('Unknown error')
 else:
     for i in range(10):
-        print(f'第{i+1}次请求')
+        print(f'Request {i+1} times')
         headers = {
             'Accept': '*/*', 
             'Content-type': 'application/x-www-form-urlencoded',

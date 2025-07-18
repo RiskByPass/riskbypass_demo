@@ -17,7 +17,7 @@ a = [
 def get_px3():
     headers = {
         'content-type': 'application/json',
-        'x-api-key': 'Your api key',
+        'x-api-key': 'Your API Key',
     }
 
     random_str = ''.join(random.choices('0123456789abcdefghijklmnopqrstuvwxyz', k=10))

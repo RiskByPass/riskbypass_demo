@@ -37,7 +37,7 @@ def get_cd(ct, st, api_key):
     return cd
 
 proxy = 'http://127.0.0.1:8989' # Your proxy
-api_key = 'Your api key' # Your api key
+api_key = 'Your API Key' # Your api key
 site = 'arcteryx.com' # The kasada protection site domain
 
 kasada_args = get_ct(site=site, proxy=proxy, api_key=api_key)
@@ -86,7 +86,7 @@ json_data = {
     }
 
 for i in range(10):
-    print(f'第{i+1}次请求')
+    print(f'Request {i+1} times')
     response = requests.post(
                 url='https://arcteryx.com/api/mcgql',
                 headers=headers,

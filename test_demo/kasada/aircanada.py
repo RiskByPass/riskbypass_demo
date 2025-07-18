@@ -39,7 +39,7 @@ def get_cd(ct, st, api_key):
 
 proxy = 'http://127.0.0.1:8989' # Your proxy
 site = 'akamai-gw.dbaas.aircanada.com' # The kasada protection site domain
-api_key = 'Your api key' # Your api key
+api_key = 'Your API Key' # Your api key
 
 res = get_ct(site, proxy, api_key) # Get the x-kpsdk-ct and x-kpsdk-st
 

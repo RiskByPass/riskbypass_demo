@@ -21,7 +21,7 @@ def get_ct(site, proxy, api_key):
 
 def get_index_page():
     proxy = 'http://127.0.0.1:8989' # Your proxy
-    api_key = 'Your api key' # Your api key
+    api_key = 'Your API Key' # Your api key
     site = 'www.hyatt.com' # The kasada protection site domain
     kasada_result = get_ct(site, proxy, api_key) # Get the x-kpsdk-ct
     ct = kasada_result['x-kpsdk-ct'] # Get the x-kpsdk-ct
@@ -46,7 +46,7 @@ def get_index_page():
         'user-agent': kasada_result['user-agent'], # Get the user-agent
     }
     for i in range(10):
-        print(f'第{i+1}次请求')
+        print(f'Request {i+1} times')
         response = crequests.get(
             'https://www.hyatt.com/zh-CN/shop/service/rooms/roomrates/nycph?&checkinDate=2025-08-09&checkoutDate=2025-08-10&rooms=1&adults=1&kids=0&corp_id=13717&rateFilte',
             cookies=cookies,
