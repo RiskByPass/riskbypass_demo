@@ -71,23 +71,14 @@ Once registered, your personal API key will send to your email.
 
 - New accounts receive **100 free credits**  
 - Recharge price: **$1 (USDT) = 1000 credits**  
-- To top up, please contact us via https://riskbypass.com/recharge
+- To top up: https://riskbypass.com/recharge
 
   
 ## 💰 如何获取积分？
 
 - 新注册账号将赠送 **100 积分**  
 - 充值价格：**1 美元（USDT） = 1000 积分**  
-- 充值请通过 https://riskbypass.com/recharge 联系我们
-
-
-## 🧪 How to Use the API via Code
-
-Check the `test_demo` folder in this repository for usage examples and code samples.
-
-## 🧪 如何使用代码请求？
-
-请参考本项目中的 `test_demo` 文件夹，其中包含 API 的调用示例与用法说明。
+- 充值: https://riskbypass.com/recharge
 
 ---
 
