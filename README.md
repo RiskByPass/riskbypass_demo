@@ -10,24 +10,17 @@ If you have any questions, please contact us via https://riskbypass.com/contact
 
 ## 🚩How can I get a free API key?
 
-Go to https://riskbypass.com/dashboard and register an account, your will get 60000 free credits.
+Go to https://riskbypass.com/dashboard and register an account, your will get 100 free credits.
 
 ## 🚩如何获取免费API Key？
 
-访问官网 https://riskbypass.com/dashboard 并注册账号，注册成功后将赠送 60000 积分。
+访问官网 https://riskbypass.com/dashboard 并注册账号，注册成功后将赠送 100 积分。
 
 ## 🔍 How to Detect What Anti-Bot System a Site Uses  
 
-If you're not sure what anti-bot system the target website uses, follow these steps:
+Check those fields in the request header and cookie:
 
-1. Open your browser and visit the target website  
-2. Copy the script from `checkRisk.js`  
-3. Open Developer Tools (F12), paste the code and run it  
-4. Check the output — if it shows `"Yes"` for any item, that risk control system is in use
-
-If the `checkRisk.js` script is not working, check those fields in the request header and cookie:
-
-`_abck` `bm_sz` `sbsd` `sec_cpt` => Akamai
+`_abck` `bm_sz` `sbsd` `sec_cpt` `bm_sc` `bm_s` => Akamai
 
 `cf_bm` `cf_clearance` => Cloudflare
 
@@ -45,16 +38,9 @@ If the `checkRisk.js` script is not working, check those fields in the request h
 
 ## 🔍 我的目标网站使用了什么风控？
 
-如果你不知道目标网站使用了什么风控产品，可以按照以下步骤检测：
+请检查你想要绕过的请求是否必须包含以下字段(请求头以及cookie中)才能发起请求:
 
-1. 打开浏览器，访问目标网站  
-2. 复制项目中的 `checkRisk.js` 脚本  
-3. 打开开发者工具（F12），粘贴并运行代码  
-4. 查看输出，若出现 "Yes"，即表示该网站启用了相应的风控产品
-
-如果`checkRisk.js`脚本没有打印任何内容，请检查你想要绕过的请求是否必须包含以下字段(请求头以及cookie中)才能发起请求:
-
-`_abck` `bm_sz` `sbsd` `sec_cpt` => Akamai
+`_abck` `bm_sz` `sbsd` `sec_cpt` `bm_sc` `bm_s`  => Akamai
 
 `cf_bm` `cf_clearance` => Cloudflare
 
@@ -73,26 +59,26 @@ If the `checkRisk.js` script is not working, check those fields in the request h
 ## 🔑 How to Get an API Key
 
 Go to https://riskbypass.com/dashboard and register an account.  
-Once registered, your personal API key will be shown on the dashboard.
+Once registered, your personal API key will send to your email.
 
   
 ## 🔑 api key在哪里获得？
 
-访问官网 https://riskbypass.com/dashboard 并注册账号，注册成功后将在后台页面看到专属的 API Key。
+访问官网 https://riskbypass.com/dashboard 并注册账号，注册成功后将在邮箱看到专属的 API Key。
 
 
 ## 💰 How to Get Credits
 
-- New accounts receive **60000 free credits**  
-- Recharge price: **$1 (USDT) = 60,000 credits**  
-- To top up, please contact us via https://riskbypass.com/contact
+- New accounts receive **100 free credits**  
+- Recharge price: **$1 (USDT) = 1000 credits**  
+- To top up, please contact us via https://riskbypass.com/recharge
 
   
 ## 💰 如何获取积分？
 
-- 新注册账号将赠送 **60000 积分**  
-- 充值价格：**1 美元（USDT） = 60000 积分**  
-- 充值请通过 https://riskbypass.com/contact 联系我们
+- 新注册账号将赠送 **100 积分**  
+- 充值价格：**1 美元（USDT） = 1000 积分**  
+- 充值请通过 https://riskbypass.com/recharge 联系我们
 
 
 ## 🧪 How to Use the API via Code
