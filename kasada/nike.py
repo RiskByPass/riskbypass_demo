@@ -6,10 +6,8 @@ from curl_cffi import requests as c_requests
 
 BASE_URL = "https://riskbypass.com"                     # API base URL
 TOKEN    = "Your Token"                                 # Access token (sent as x-api-key)
-TOKEN    = "ADMIN_1brpIUqMtOrhTg8G2Izui7MuGA58eexv"                                 # Access token (sent as x-api-key)
 TIMEOUT  = 60                                           # Timeout (seconds)
 PROXY    = "http://username:password@host:port"         # Proxy string
-PROXY    = "http://43.153.26.115:5018"         # Proxy string
 
 def get_ct():
     # Task JSON payload
