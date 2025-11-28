@@ -148,9 +148,9 @@ def get_cd(ct, st, fc, site='nike'):
             return
 
 if __name__ == "__main__":
+    # kasada-cd api is free if you contact us
     kasada_args = get_ct()
     ct = kasada_args['x-kpsdk-ct'] # Get the x-kpsdk-ct
-    # ct = '0OzDMhCPBpv5mEErRFlTMpOHqoUGCo1WQuiF5zkTTUT4ZDTqxymsy40zuerwP6AKLRmorG33UeZBf1AfNFQYDDNMqEDWKgfw3p4fZaOqCumMGYcppVWbHQoHoZJSqhSwzbAMKU6diB3dr96j7hTkoW3iuN7syVF49OMD2wqW0e8ipTQ6'
     st = kasada_args['x-kpsdk-st'] # Get the x-kpsdk-st
     v = kasada_args['x-kpsdk-v'] # Get the x-kpsdk-v
     h = kasada_args['x-kpsdk-h'] # Get the x-kpsdk-h
