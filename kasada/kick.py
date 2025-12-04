@@ -78,7 +78,7 @@ def get_ct():
             print("UNKNOWN:", j)
             return
 
-def get_cd(ct, st, fc, site='twitch'):
+def get_cd(ct, st, fc, site='kick'):
     # Task JSON payload
     payload = {
         "task_type": "kasada_cd",
