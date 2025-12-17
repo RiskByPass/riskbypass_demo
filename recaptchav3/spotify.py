@@ -82,8 +82,7 @@ if __name__ == "__main__":
     results = run_task(payload)
     
     import primp
-    # client = primp.Client(proxy=PROXY)
-    client = primp.Client(proxy='http://127.0.0.1:8989')
+    client = primp.Client(proxy=PROXY)
     headers = {
         'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
         'accept-language': 'en,zh-CN;q=0.9,zh;q=0.8',
