@@ -72,7 +72,7 @@ if __name__ == "__main__":
     payload = {
         "task_type": "hcaptcha",
         "proxy": PROXY,
-        "target_url": "https://accounts.evernote.com/",
+        "target_url": "https://accounts.evernote.com/login-with-password",
         "site_key": "9236f198-f154-4aa9-8f4d-2e7ce9aedb5b"
     }
     results = run_task(payload)
@@ -94,8 +94,8 @@ if __name__ == "__main__":
         'origin': 'https://accounts.evernote.com',
         'pragma': 'no-cache',
         'priority': 'u=1, i',
-        'referer': 'https://accounts.evernote.com/login',
-        'sec-ch-ua': '"Google Chrome";v="143", "Chromium";v="143", "Not A(Brand";v="24"',
+        'referer': 'https://accounts.evernote.com/login-with-password',
+        'sec-ch-ua': '"Google Chrome";v="142", "Chromium";v="142", "Not A(Brand";v="24"',
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"Windows"',
         'sec-fetch-dest': 'empty',
@@ -107,11 +107,14 @@ if __name__ == "__main__":
 
     data = {
         'email': 'Test123456@gmail.com',
+        'password': 'sssssssadjhj1',
         'hCaptchaResponse': results["token"],
         'language': 'en',
     }
     proxies = {
         'https': PROXY
     }
-    response = requests.post('https://accounts.evernote.com/api/checkEmail', cookies=cookies, headers=headers, data=data, proxies=proxies)
+    from primp import Client
+    client = Client(proxy=PROXY, impersonate='chrome_133')
+    response = client.post('https://accounts.evernote.com/api/checkPassword', cookies=cookies, headers=headers, data=data)
     print(response.text)
