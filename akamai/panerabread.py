@@ -119,7 +119,7 @@ if __name__ == "__main__":
         "proxy": PROXY,
         "target_url": "https://catering.panerabread.com/",
         "akamai_js_url": "https://catering.panerabread.com/wq7Hm6aSruxwjxF_DQ/f7wi8SrQGfLhmr/FxwfRw/NWQwC/WNvd24B",
-        "page_fp": "42455e5a4e485c515f5e43455e5a4e494b"
+        "page_fp": "424541475255414d47474545475f5555405a425f4045434753554859405f4a5140475242404d5e425e585f5b4e54414d5e425e5948"
     }
     akamai_result = run_task(akamai_payload)
     if not akamai_result:
