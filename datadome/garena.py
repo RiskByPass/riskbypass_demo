@@ -9,17 +9,7 @@ TOKEN    = "Your Token"                                 # Access token (sent as 
 TIMEOUT  = 60                                           # Timeout (seconds)
 PROXY    = "http://username:password@host:port"         # Proxy string
 
-def run_task():
-    # Task JSON payload
-    payload = {
-        "task_type": "datadome-invisible",
-        "proxy": PROXY,
-        "target_url": "https://100054.connect.garena.com/universal/oauth?redirect_uri=gop100054%3A%2F%2Fauth%2F&response_type=code&client_id=100054&login_scenario=normal&locale=vi_VN",
-        "datadome_js_url": "https://datadome.garena.com/tags.js",
-        "ddjskey": "AE3F04AD3F0D3A462481A337485081",
-        "ddoptions": "{\"ajaxListenerPath\": true, \"allowHtmlContentTypeOnCaptcha\": true}"
-    }
-
+def run_task(payload):
     session = requests.Session()
     headers = {"Content-Type": "application/json", "x-api-key": TOKEN}
 
@@ -80,7 +70,16 @@ def run_task():
             return
 
 if __name__ == "__main__":
-    result = run_task()
+    # Task JSON payload
+    invisibale_payload = {
+        "task_type": "datadome-invisible",
+        "proxy": PROXY,
+        "target_url": "https://100054.connect.garena.com/universal/oauth?redirect_uri=gop100054%3A%2F%2Fauth%2F&response_type=code&client_id=100054&login_scenario=normal&locale=vi_VN",
+        "datadome_js_url": "https://datadome.garena.com/tags.js",
+        "ddjskey": "AE3F04AD3F0D3A462481A337485081",
+        "ddoptions": "{\"ajaxListenerPath\": true, \"allowHtmlContentTypeOnCaptcha\": true}"
+    }
+    result = run_task(invisibale_payload)
 
     cookies = {
         '_ga_57E30E1PMN': 'GS2.2.s1754904612$o1$g1$t1754904620$j52$l0$h0',
@@ -108,7 +107,7 @@ if __name__ == "__main__":
 
     params = {
         'app_id': '10100',
-        'account': 'k112o33',
+        'account': 'asdasd1234',
         'format': 'json',
         'id': '1764336105856',
     }
