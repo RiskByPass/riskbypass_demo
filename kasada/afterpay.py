@@ -5,7 +5,7 @@ import requests, time, json
 from curl_cffi import requests as c_requests
 
 BASE_URL = "https://riskbypass.com"                     # API base URL
-TOKEN    = "Your Token"                                 # Access token (sent as x-api-key)
+TOKEN    = "your token"                                 # Access token (sent as x-api-key)
 TIMEOUT  = 60                                           # Timeout (seconds)
 PROXY    = "http://username:password@host:port"         # Proxy string
 
@@ -190,11 +190,12 @@ if __name__ == "__main__":
         'email': 'a123456789@gmail.com',
         'isFromRegistration': False,
     }
-
     response = c_requests.post(
         'https://portalapi.us.afterpay.com/portal/consumers/emails/lookup',
         headers=headers,
         json=json_data,
-        proxy=PROXY
+        proxy=PROXY,
+        cookies={'__cf__client__uuid_1.1':ct},
+        impersonate='chrome136'
     )
     print(response.text)
