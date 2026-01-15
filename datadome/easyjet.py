@@ -1,14 +1,9 @@
-# -*- coding: utf-8 -*-
-# RiskByPass 面板 + TruePeopleSearch 完整爬取流程 (修复版)
-# 修复: 使用Session保持Cookie和IP一致性
-# 依赖: pip install requests curl_cffi
-
 import requests
 import time
 import json
 import random
 
-BASE_URL = "https://test.riskbypass.com"
+BASE_URL = "https://riskbypass.com"
 TOKEN = "your token"
 TIMEOUT = 60
 PROXY = "http://username:password@host:port"
