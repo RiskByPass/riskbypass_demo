@@ -3,11 +3,13 @@
 # Deps: pip install requests
 import requests, time, json
 from curl_cffi import requests as c_requests
+import random
 
-BASE_URL = "https://riskbypass.com"                     # API base URL
-TOKEN    = "Your Token"                                 # Access token (sent as x-api-key)
+BASE_URL = "http://riskbypass.com"                     # API base URL
+TOKEN    = "your token"                                 # Access token (sent as x-api-key)
 TIMEOUT  = 60                                           # Timeout (seconds)
-PROXY    = "http://username:password@host:port"         # Proxy string
+PROXY = f'http://username:password@ip:port'
+
 
 def get_ct():
     # Task JSON payload
@@ -15,7 +17,7 @@ def get_ct():
         "task_type": "kasada",
         "proxy": PROXY,
         "target_url": "https://www.twitch.tv/",
-        "protected_api_domain": "gql.twitch.tv",
+        "protected_api_domain": "passport.twitch.tv",
         "kasada_js_domain": "k.twitchcdn.net"
     }
 
@@ -187,5 +189,6 @@ if __name__ == "__main__":
         'x-kpsdk-v': v,
     }
 
-    response = c_requests.post('https://gql.twitch.tv/integrity', headers=headers, proxy=PROXY)
+    data = '{"username":"a1234asd1","password":"asdsanjn231.","email":"asda21msadsa@gmail.com","birthday":{"day":17,"month":7,"year":1977,"isOver18":true},"client_id":"kimne78kx3ncx6brgo4mv6wki5h1ko","is_password_guide":"nist"}'
+    response = c_requests.post('https://passport.twitch.tv/protected_register', headers=headers, data=data, impersonate='chrome136', proxy=PROXY)
     print(response.text)
