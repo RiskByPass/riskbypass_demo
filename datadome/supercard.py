@@ -72,7 +72,7 @@ if __name__ == "__main__":
     payload = {
         "task_type": "datadome-slider",
         "target_url": "https://login.supercard.ch/cas/login",
-        "target_method": "POST",
+        "target_method": "GET",
         "proxy": PROXY
     }
     results = run_task(payload)
