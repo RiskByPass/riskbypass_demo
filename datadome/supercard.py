@@ -137,7 +137,7 @@ class RiskbypassResponse:
 
 def main():
     random_port = random.randint(10000, 20000)
-    PROXY = f"http://username:password@host:port"
+    PROXY = f"http://xxxxxxxxxxxxxx.us:xxxxxxxxxxxxx@gw.dataimpulse.com:{random_port}"
     payload = {
         "task_type": "datadome-slider",
         "target_url": f"https://login.supercard.ch/cas/login",
@@ -145,28 +145,10 @@ def main():
         "proxy": PROXY
     }
     results = run_task(payload)
-    cookies = {
-        'DISSESSIONOauthOidcServerSupport': 'eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImE2MmE4ODJhLTk0ODctNDkzMS05ODhmLTAyM2RkNjdhYWUwMSJ9.ZXlKNmFYQWlPaUpFUlVZaUxDSmhiR2NpT2lKa2FYSWlMQ0psYm1NaU9pSkJNalUyUTBKRExVaFROVEV5SWl3aVkzUjVJam9pU2xkVUlpd2lkSGx3SWpvaVNsZFVJaXdpYTJsa0lqb2lNekJoWkRBNFl6VXROVFUxWlMwMFkyUTJMV0ZtWVRJdFkyRXdNV0l6WmpKaE5qTTJJbjAuLjJZUFVCSW1WbURUNXdvUUdCdEVTM0EuOHFSR0lGZUlILTNlYzVNQkVxaTNPV3ltaThwSjF3M2dndHB0WDg3SC1KanhzVjU4ckVHUkNROHRYeWNqV3h1Z0FMdkZOMFZqTWh5Q3ZZY1VlenVpMkpSQlEtNHY1X1NwZkZuckhXX1d1bnNQY1VfRklSYkcyQlpmYl9xc2M4U3I5dWYzQ3BHal8zRmdnX1NXZ0VrUGE2RHVOVndyLWdrTzJYalNScXdiNDRXYnJTVHVfZE9Yak5SV3VFNUNuMm9nLTJ3Zk1QN3pUakdILW9weldGZVhLQS5KYkp4SmVYWENFaVVmMi1haFBIV0czVnJnZV80TnRKZ09HeUEzbE1zSkVn.3_ZK7r6QF1fJKrwxOWZWexowAkHYHmmQRYyWellXau-BV_vXlrERiPQsPZGNJpiOkbGnh7fQmt135LKCjxfpyQ',
-        'XSRF-TOKEN': '54f7fe8c-9fca-40fa-a290-1275e2927195',
-        'TS0147bc3d': '016df7e16a8c62d5bca729568000da87c4ae1dda573d5599dc4ddfbc3d9087c4f205f12dfa2ee7ad2e02eab1587e29918dca86147019d6df30a274916b15d29ec9ddc34e02b5409bf623ea70156a424ed03e8623fa',
-        '__gads': 'ID=31ec24ef8eb77dce:T=1771204017:RT=1771204017:S=ALNI_MbghGno0TR-8Kew1Jk1Tbob80E7yA',
-        '__gpi': 'UID=0000120172b19dae:T=1771204017:RT=1771204017:S=ALNI_MZctPws6iMHPoG3e-M0X8Z_MZYqvQ',
-        '__eoi': 'ID=10beda669624dd02:T=1771204017:RT=1771204017:S=AA-AfjaouSxPicaUsXsbpBT8BpLE',
-        'org.springframework.web.servlet.i18n.CookieLocaleResolver.LOCALE': 'de',
-        '_fbp': 'fb.1.1771204034313.34362623588822968.Bg',
-        '_ga': 'GA1.1.789379298.1771204034',
-        '_gcl_au': '1.1.454790037.1771204035',
-        '_ga_9T8H2PLHNV': 'GS2.1.s1771204034$o1$g0$t1771204270$j60$l0$h0',
-        'TS014e0601': '016df7e16a2e3c8af1e982e61cea530e1360d206933803454d71d71babeef215649317a14ba60c64c7cfca7f5e4272df4db6e085229c54b69df6e0fd268b66965c0ec674b2',
-        '_ga_Y527B7S1ST': 'GS2.1.s1771238438$o1$g0$t1771238438$j60$l0$h0',
-        '_ga_0HX60ZSQXP': 'GS2.1.s1771238439$o1$g0$t1771238439$j60$l1$h2093792094',
-        'utag_main': 'v_id:019c63fca133000801b53aa2bd090506f002006700980$_sn:2$_se:2$_ss:0$_st:1771240268484$ses_id:1771238437621%3Bexp-session$_pn:1%3Bexp-session$ga4ClientId:c789379298.1771204034%3Bexp-session',
-    }
-    cookies['datadome'] = results.get('datadome')
-
+    cookies = results.get('extra')
     headers = {
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
-        'Accept-Language': 'en;q=0.9',
+        'Accept-Language': 'en-US,en;q=0.9',
         'Cache-Control': 'max-age=0',
         'Connection': 'keep-alive',
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -181,11 +163,10 @@ def main():
         'sec-ch-device-memory': '8',
         'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"',
         'sec-ch-ua-arch': '"x86"',
-        'sec-ch-ua-full-version-list': '"Not:A-Brand";v="99.0.0.0", "Google Chrome";v="145.0.7632.46", "Chromium";v="145.0.7632.46"',
+        'sec-ch-ua-full-version-list': '"Not:A-Brand";v="99.0.0.0", "Google Chrome";v="145.0.7632.110", "Chromium";v="145.0.7632.110"',
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-model': '""',
         'sec-ch-ua-platform': '"Windows"',
-        # 'Cookie': 'XSRF-TOKEN=a7deadd9-c213-4038-a83a-c3d4f3e8391e; TS0147bc3d=016df7e16ab969e0ef78cabc5c8f3f873f13b8a02dd5393e14371e7f09edf9dfe84a099a98002454a0de4fc710e7dacf50d5e004c0f6eb69546f52d18f19aced70b15da462; TS014e0601=016df7e16ab34c57f2dc6bbe0420012347a04108a8d5393e14371e7f09edf9dfe84a099a98e0d5022625bb791a7b9b40ffe8d30ce4; utag_main=v_id:019c7fc2f53400a0c259e59bf4280506f002406700980$_sn:1$_se:1$_ss:1$_st:1771671809140$ses_id:1771670009140%3Bexp-session$_pn:1%3Bexp-session; datadome=BZCF3EykyK9CZ2WjYJvBGT3P5eoZCpFDjr2x~GpzVja6o8Fc4BK7P~PmE5Gi2LnK1CvgbkSTO0VvqdSIDpCBUduUMU7FFxGq83NjzRhRqJgfozCGTUwKCUtDCn7lKQ4u',
     }
 
     data = {
@@ -195,15 +176,20 @@ def main():
         '_eventId': 'submit',
         'geolocation': '',
     }
-    # from primp import Client
-    # client = Client(impersonate='chrome_133', proxy=PROXY, impersonate_os='windows')
-    # response1 = client.post('https://login.supercard.ch/cas/login', cookies=cookies, headers=headers, data=data)
-    response2 = tls_post('https://login.supercard.ch/cas/login', cookies=cookies, headers=headers, data=data, proxy=PROXY)
-    # print(response1.status_code)
+    from curl_cffi import requests
+    response1 = requests.post('https://login.supercard.ch/cas/login', data=data, headers=headers, cookies=cookies, proxy=PROXY, impersonate='chrome133a')
+    print(response1.status_code)
+    
+    from primp import Client
+    client = Client(impersonate='chrome_133', impersonate_os='windows', proxy=PROXY)
+    response2 = client.post('https://login.supercard.ch/cas/login', data=data, headers=headers, cookies=cookies)
     print(response2.status_code)
+    
+    response3 = tls_post('https://login.supercard.ch/cas/login', data=data, headers=headers, cookies=cookies, proxy=PROXY)
+    print(response3.status_code)
 
 if __name__ == '__main__':
     from concurrent.futures import ThreadPoolExecutor
     executer = ThreadPoolExecutor(max_workers=10)
-    for _ in range(100):
+    for _ in range(1):
         executer.submit(main)
