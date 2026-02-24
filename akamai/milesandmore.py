@@ -7,7 +7,7 @@ BASE_URL = "https://riskbypass.com"  # API base URL
 TOKEN    = "your token"    # Access token (sent as x-api-key)
 TIMEOUT  = 60                         # Timeout (seconds)
 random_port = random.randint(10000, 20000)
-PROXY = f'http://xxxxxxxxxx.us:xxxxxxxxxxxx@gw.psbproxy.io:{random_port}'
+PROXY = f'http://xxxxxx__cr.us:xxxxxxxx@gw.psbproxy.io:{random_port}'
 
 def run_task(payload):
     session = requests.Session()
@@ -76,7 +76,8 @@ if __name__ == '__main__':
         "proxy": PROXY,
         "target_url": "https://account.miles-and-more.com/web/row/ru/login.html?client_id=agGBZmuTGwFXWzVDg8ckGKGBytemE1nS&target_state=AUTHENTICATED&target_url=https://consent.msp.miles-and-more.com/&response_type=code&redirect_uri=https://www.miles-and-more.com&scope=AUTHENTICATED%20IDENTIFIED%20urn%3Amilesandmore%3Atech%3Abackground%3Av1%3Aactive&principal_type=SERVICE_CARD_NUMBER&reduced_state=NONE",
         "akamai_js_url": "https://account.miles-and-more.com/KlGM1qL4x/C/2/pr-BykXaZPdv5gs4/1wcE4J9fY1Xukmh9aw/FXwEbR59TQ4/FXNpLHx/0OQ4C",
-        "page_fp": "42455e5a4e495c505f47465c4547534f46535f4349595f594e495c505f44445d4247534043595f4349595f594e485c505f4545504b47534b43585f4349585f5b4e485c505f40415e4b47504841555f4349595f594e495c515f4142504747504145565f4349595f5b4e495c505f45475a4247544c444d4348424543475255414d4540405f5f5c5a415c5148435e595f5b4e485c5740464145425a56495c5148"
+        "page_fp": "42455e5a4e495c505f47465c4547534f46535f4349595f594e495c505f44445d4247534043595f4349595f594e485c505f4545504b47534b43585f4349585f5b4e485c505f40415e4b47504841555f4349595f594e495c515f4142504747504145565f4349595f5b4e495c505f45475a4247544c444d4348424543475255414d4540405f5f5c5a415c5148435e595f5b4e485c5740464145425a56495c5148",
+        "abck_length_list": []
     }
     cookies = run_task(payload).get('cookies_dict')
     headers = {
