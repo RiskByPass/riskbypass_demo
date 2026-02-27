@@ -97,7 +97,8 @@ def tls_forward(url, method="GET", headers={}, json={}, data='', cookies={}, pro
         "headers": headers,
         "body_base64": body_base64,
         "cookies_dict": cookies,
-        "timeout": timeout
+        "timeout": timeout,
+        "endpoint": "2"
     }
     if headers.get('user-agent'):
         payload['user_agent'] = headers.get('user-agent')
