@@ -5,9 +5,13 @@ import requests, time, json, random, base64
 from urllib.parse import urlencode
 from json import dumps as json_dumps
 
-BASE_URL = "https://riskbypass.com"  # API base URL
-TOKEN    = "your token"    # Access token (sent as x-api-key)
-TIMEOUT  = 60                         # Timeout (seconds)
+BASE_URL = "https://riskbypass.com"  # api端口地址
+TOKEN = "your token"  # 访问令牌（作为 x-api-key 发送）
+TIMEOUT = 60  # 超时时间（秒）
+PROXY = f'http://username:password@host:port'
+random_port = random.randint(10000, 20000)
+PROXY = f'http://username:password@host:port'
+print(PROXY)
 
 
 def run_task(payload):
@@ -136,8 +140,6 @@ class RiskbypassResponse:
 
 
 def main():
-    random_port = random.randint(10000, 20000)
-    PROXY = f"http://xxxxxxxxxxxxxx.us:xxxxxxxxxxxxx@gw.dataimpulse.com:{random_port}"
     payload = {
         "task_type": "datadome-slider",
         "target_url": f"https://login.supercard.ch/cas/login",
@@ -145,7 +147,8 @@ def main():
         "proxy": PROXY
     }
     results = run_task(payload)
-    cookies = results.get('extra')
+    cookies = {'datadome': results.get('datadome')}
+    print(cookies)
     headers = {
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
         'Accept-Language': 'en-US,en;q=0.9',
@@ -178,15 +181,40 @@ def main():
     }
     from curl_cffi import requests
     response1 = requests.post('https://login.supercard.ch/cas/login', data=data, headers=headers, cookies=cookies, proxy=PROXY, impersonate='chrome133a')
-    print(response1.status_code)
+    print('curl_cffi: ', response1.status_code)
     
     from primp import Client
     client = Client(impersonate='chrome_133', impersonate_os='windows', proxy=PROXY)
     response2 = client.post('https://login.supercard.ch/cas/login', data=data, headers=headers, cookies=cookies)
-    print(response2.status_code)
+    print('primp: ', response2.status_code)
     
     response3 = tls_post('https://login.supercard.ch/cas/login', data=data, headers=headers, cookies=cookies, proxy=PROXY)
-    print(response3.status_code)
+    print('tls_forward: ', response3.status_code)
+
+    from cronet_client import CronetClient, Proxy
+    def get_proxy():
+        return Proxy(
+                host='gw.dataimpulse.com',
+                port=random_port,
+                username='1dd65e2258b9eb99041a__cr.us',
+                password='32971dbeaa7b40c9'
+            )
+    
+    with CronetClient(proxy=get_proxy()) as client:
+        response4 = client.post(
+            'https://login.supercard.ch/cas/login',
+            headers=headers,
+            data=data,
+            cookies=cookies # 初始 cookie
+        )
+        print('cronet: ', response4.status_code)
+
+    import requests_go
+    response5 = requests_go.post('https://login.supercard.ch/cas/login', data=data, headers=headers, cookies=cookies, proxies={'http':PROXY,'https':PROXY}, 
+        tls_config=requests_go.tls_config.TLS_CHROME_LATEST
+    )
+    print(f"requests_go: {response5.status_code}")
+
 
 if __name__ == '__main__':
     from concurrent.futures import ThreadPoolExecutor
