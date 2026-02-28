@@ -141,6 +141,9 @@ class RiskbypassResponse:
 
 
 def main():
+    random_port = random.randint(10000, 20000)
+    PROXY = f"http://xxxxxxxxxxxxx__cr.us:xxxxxxxxxxxxxxx@gw.dataimpulse.com:{random_port}"
+    print(PROXY)
     payload = {
         "task_type": "datadome-slider",
         "target_url": f"https://login.supercard.ch/cas/login",
@@ -149,77 +152,52 @@ def main():
         "diffcult": True
     }
     results = run_task(payload)
-    cookies = {'datadome': results.get('datadome')}
+    cookies = {'datadome':results.get('datadome')}
     print(cookies)
+    url = 'https://login.supercard.ch/cas/login'
     headers = {
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
-        'Accept-Language': 'en-US,en;q=0.9',
-        'Cache-Control': 'max-age=0',
-        'Connection': 'keep-alive',
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Origin': 'https://login.supercard.ch',
-        'Referer': 'https://login.supercard.ch/cas/login',
-        'Sec-Fetch-Dest': 'document',
-        'Sec-Fetch-Mode': 'navigate',
-        'Sec-Fetch-Site': 'same-origin',
-        'Sec-Fetch-User': '?1',
-        'Upgrade-Insecure-Requests': '1',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36',
-        'sec-ch-device-memory': '8',
-        'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"',
-        'sec-ch-ua-arch': '"x86"',
-        'sec-ch-ua-full-version-list': '"Not:A-Brand";v="99.0.0.0", "Google Chrome";v="145.0.7632.110", "Chromium";v="145.0.7632.110"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-model': '""',
-        'sec-ch-ua-platform': '"Windows"',
+        "Host": "login.supercard.ch",
+        "Connection": "keep-alive",
+        "Cache-Control": "max-age=0",
+        "sec-ch-device-memory": "8",
+        "sec-ch-ua": '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"',
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-arch": '"x86"',
+        "sec-ch-ua-platform": '"Windows"',
+        "sec-ch-ua-model": '""',
+        "sec-ch-ua-full-version-list": '"Not:A-Brand";v="99.0.0.0", "Google Chrome";v="145.0.7632.76", "Chromium";v="145.0.7632.76"',
+        "Origin": "https://login.supercard.ch",
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Upgrade-Insecure-Requests": "1",
+        "User-Agent": results.get('ua'),
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+        "Sec-Fetch-Site": "same-origin",
+        "Sec-Fetch-Mode": "navigate",
+        "Sec-Fetch-User": "?1",
+        "Sec-Fetch-Dest": "document",
+        "Referer": "https://login.supercard.ch/cas/login",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Accept-Language": "en"
     }
 
     data = {
         'username': '1772asdas1w@gmail.com',
         'password': 'asdasmndja1242.A',
-        'execution': 'be0d354a-3df0-409a-8d88-82a00f6f676b_ZXlKaGJHY2lPaUpJVXpVeE1pSXNJblI1Y0NJNklrcFhWQ0lzSW10cFpDSTZJakkxWkRKaFpXTXpMV0l3WVdRdE5EaGxaQzFoTnpZeExUSXlaRGxtWVRRek5XUmpNeUo5LjUwS3NUb1RPaFp0anJ1NGNrSVBtN2xZelB5bWtlQ2xzS2U4b0o2US00eUJSVXNkRnFPcHo5YnlDbnBJMnlzV0hkSGZWbnRFMU53TXE4MnVNTGo1MFVpNmpEU1ZOLWJuU29iY3dJVlhlNjFaUHE4cXJTYlU0dHZpd3o0VUVvcnlGYW55UzVWMmxaZm54T3YyS25jZ3VVMTk4bDNheUptRzQ3RjlqaUowbG44YlA4SzNRYTRFVnM1dDhySGIwaGRSTnFPdERDUjA0ZlJrdjJtbWdka3R3a2hrczhGd1BZOUVIYWtvTTZqbm0wQm5zWDFxUy0zVFVUbl9vTHFoZFM0MUlvLVRZSDM2ekRRN3dYXzZqTllwWWdiMUJ6YU9zX0xUeFZtck9sWGJJRWRQeGRDbGdQU09jRG9jN2JUU0l3QmprT3pDV00wLUJvOThUc3hSa0l4bU9KLXBUekxkYVhBVXc0SXd2R1RXRjlWT1pONFpjTExnR1BiT2ZxeUZPZTZGTVFWV0h2bXZkQUtETjRWVHNQdW51Wl9kN2l6aUFZYUFpenpRdEJQRDV2Z3RFWDY0Um9TQzNGbzA5aU1oUFhkZUQyQmNmZ3kza0ZDU2NUdkVrOUVVdDRhb0JzWV8xSmdiNlJCbmR6QlJMMWUxR0ZaRnp0VnlfYmR3SWstUzdVZXFFeW9FR212ems0dG5GOFpFRHZKRWo4cl9CWThRa0NOb3pqby1hbmYwekdIMmVkaXF0ZFU2X1FMdHpwVGw3c1VGQ1VLWmVqT1BtazFlei1lOGxlZDlfeEE2am9VMjQ4X0NxcndReFkxNW50M0c0TldZaW9KbUcyZWpHSHhvbDg1elg5b1VvbEhZX2h3dGJfTXVnNFpXU0xCSU00bk1ZMnA3VU1xQUdHNVhsQUF0Wmx4TFktUnlXRllrSG85SjFoVUtGcFhiM2hsY3BpcVR5MHhmd2E1RDh6cEN0ajZ6VW9lNFlQTmU2T3IzUVRnZjg4bWJWTFh2dUxZWHlEQWF3SXNGdFc1eDE5MmUxcnZVZjZHcy1OOC1HejVuOVIyVVRyeGgwc3ZJd0ZncWhnQWwzcVo3d0dkV1Y4Wi1PNmRkLVBSOUpMajEtQ08zUzlwQjZod1VIZHEzRC1BbWZBS0dFUHZLR05zMWVIeHlpSWQ5bHF3dzFDVkFraWxDYzN1bWVPczN3TG1GcVhWVnp5ZVZmY2RGU25DR3VHMWJ6QmZ1Ujk3X25PaE0yblFTeUEySlhEbERydGduYVp5dTR3SVhpSnl1Vm9PUWVZN3JrazBBR1dkMmlyeWl6cXdCQ3VyWE1ZT1dCaFM1ano4MlB2V0gweG5weVp2N1NSeWtaU3d3UGlrLUMzeWgzV2ppMW1HQ3ZEc1dPZ09pUmNYZGZFNFRwOFByU2JYemFxSXgxY2ZsOEMtTmxjaXNCQVROaFIxWjdaYTR2dGRsY2o5MTFNUlRXX0E3TmRVUVFGS0hBME8wdWp5Z1o0T3hvNXpzS3AtbWNXTDRfZmRySllUTUc2eWRuLWdGcTJKWHFlczRxLTdkei1sNDh1Qkdib2RCNG1NSDhYNy0wV0dfZG5TUzkwZGV0amdrTnoxZl9xVE1sdHl3WHN2THFQXzJzeFdUSE90Y0IxLTFuaGJDWG9HLVhHMmhxcWxHRVcxcEpDbEVQS09VTWRLWmJCTm9rUW1OclFSSWlfZ0Rnc2pQZHlXcXJnTWthdlhvaEFuNjFhd2FMTUxYdkxKZHpzRzlqWTh5ZjBpbXRYbTZGVmVwbWxUY1otcllKMTNiaGNmU0k3QnJFNHZROWZSZkJUNWVIMng0Tm9vMEt3Tk5MZ2I3Y1lXX3pxTUR0ZlBlaWxEUWdfVWU1ako5VW1tSzZSMHRSTW5JdTE1NC1rbDVKWnRGWWYxaUJ0clFabk41ektsRGJNZXpGU0h1WE1tRmJESWtRU3RUS3Q5OENEU1VuLUlRQ0pWMEZLdlMxWGw2am1wYWhLYUJyRkN1QllNQjZtQ2dIS1BlS2F4eTg2OERNWnd2SmdnYzBsd1RJeVpOOGRocXBFMkxnbVJxaDllUm1DUEZvTHlqY2RsZFZhdjNsVDFNX3B5M3owdFRVV3BWRWJZNnJjdFpzNktsVzVONGdYRmdLdWtpMlFBXzI4M1g3dm1vcl9Ib3RNb0E0ekl2V1h0ajUzVk1sdUM3cTlrd0tWd20xd2FmNHh3OFhVVFFWN2pOR2FHU0Q3NVJ6NVRLNXhNRER1UE92dEpONXgwTXdhelVtRV9ScE9ySU1EbXBGb21Ublp3cWI0SW1mTVU0R3p2VzVuTGhjNG9lWXRCWDJzVENvUlFYQnprY2tJVWtOYWMxWG5ydlJOQUhnSzl4TlZUWXlPUl9QS2FaTHdObGZFUVFGVkw5Y0tDa01DLS1wbnlJYWIyT3c2aHF3U1BQdFdFT3RUM0RiWHRPS1dXMWk4Rk5yTFFuQjBCeGF2cVpVeWJHampoVktQa1AwdlpIOHZQMV9ubEptaS16Tk5SUENHb2hYYTZwYWRZV19HWm9idUQ3cXZtLUIwdl9OTGVCZ3lLSm5uYmIzS09ISmIza01YbjBDd194eV85X3lVRDFpMEVlLWcyYldhY0I4VTU2b1plaExZUVcyaWVVaFN2Vmd0TkRpeS1ISlRnOThySWd3WVg2Q29aUjJtM3YzWDFkSUJZSnlrSms5bFE5cGxDVjZPS2hsZHlDWHlVYW5ERnA4SFQwU2RtZHdUc3dTOUI1RHZSVnhsbV9iU1JVRHNsSjc2c2dUSVF6UjU0c195QlV1MHpBN3dkUTV3RjJxc2xrSFRHRmRSaGtfRWw2blUwdWxhQ1RsZlBRTkxIV0NxeWZUb2Q2QTF4S213d2w5N1hFYW55YmZhQ2lOd3puTjVXbUs2NEdRWUJodjA4b29XVmVucmlCcU5VTVptcF81Z3JndHlCZG11OGREdHFoRndIR2Q3cFByMGFSc2JucHdlOElFRUpnSTFXN1ZsUnBzSXc4Y01ybzlCcmZLUVY5cWttMjVLSy0zRzRiOEZxYmNfaVF5ZDZfU3ZhcGJtRFpkVGZ6eVltWXNWdGJFVVdjZndHaFVxSkc2SE1UaTBUZVRNVG55ekpKd0xFbFhLSWpZZ01ucXhwQ2ZRalR3d2tNZWwyelNnVjBBaDBwRzRXSGN1bGRkTDZ0LUdnU3lZT0ZJYjBUNk5weEQ5V2RrRlhMLVBhbUNWMElnVGFUbFdBYm1iNnpOMEpiaENXQnVKVmxOeVdPc0FsYWVuMWNjSDZIWGRLNzljcWVObnhxU3dYTGo0T08tQ1A1ZjlwUE0xSmZxU2FDcngtSlFlNnphUTh6SWlPTzFBVHNNTnhKNmFRY3A0NC1GWDBENFpfRGlFYVBDMUFqa1kxV1l4MjM2aEdkTDFDTE42VXBSVmsxMGdmMXVLQjYyZHlkZ3lxNDNOUnBUM0QySVZFcVZjVGh2bmhiclZybDhrOEhYLU1ZVFBZaEYyLUhZQlhKUV9XbWhhOUJWMFc3UktqTHByT2xPOGNoVEw3RmJxMDVYX19SUzFzaGRjLWpFVG0wVVlxX0hXclhFcGY1d3dOTU1yT0xDQXM2R3I4M1pndmtBbDhJd0NFck8xUHd2VGZKdFE3dEtzblNpYUFlMG5TM2V2XzJTNjgzZnpnNkdDenc2Nmc4RzNYSlZCTDVxdzBtV2ZfQkkxd3YxRkZ1aHNMRS1sQUJEdVJfSEhfRzAxNXBqeGx5SUdhUnBDZ3EtMUVBZHZHQ2NlWDRHQ05hbXVrSzFEQThMcXFGR3VUdXo4UUR4ZGUzMDhOOFo4cEEwa0piMHdXbXNjczZINTJ6VGh6TUttUm9RaENjMGlpUXlRZUdkb2RCdk1DTDhJekI1cGhpVTRwZXFxUWFlNVBTb2J6WEVKMFhkNmo3Z3pQai0zWUdqLVpQblJ3TXVzUFFzNnRmWkUtcV9IX2lzTVpLdXBDWmpTMHpZV2dqdUYyUVFKaHVVblNjYVRNaWFBSjZvV0ZFLmNDNklmT0RvU29XemhRSzhxNERwYUtCYTBWenY3MnRTVTdaQll1Qll3U3FrbTZjUGtja0RmRTMyekYwTVVCUXlpSFpQSXNnb2FxSUc5bVVkekZTSi1n',
+        'execution': '28cd7b89-26e7-419f-973b-48fca02f1e0f_ZXlKaGJHY2lPaUpJVXpVeE1pSXNJblI1Y0NJNklrcFhWQ0lzSW10cFpDSTZJakl5WmpFMk1XUTVMV1F5WVRjdE5EVmhZeTFpTVRFeExXSXdaV1V4TkdRell6VmxNaUo5LjUwS3NUb1RPaFp0anJyWWRBSVRoX2xhU0xPWU5UX25FU0ZnaDVWQkY3ZUtFNG5tOHRWdG9nSFJ4QWM1UmROZFFuM2RKMTdXS0dqQXQ2c0c3U3lXRkY3UFpGNGlKVGxvekQ2cXJ2M0VmWGRiY1VxSHBuMHVjaFhfci1TaW9zdjV3WnpCbmtNR2pGUlZRMXB4Z1pzeUJQM25GaThMOUM3cWkzdTJ3NjNJTjROTzZuajlhckxYUXVaQUtjeHR0VUhWdS1iQWdDMlpuUHRhc2FoMEJaMDdxRGhJNVkydVRLVVYyVHdWSlQtZmU1MkZqZEJ6T2lFTmxmek00UVhYLXhwTlFRVUVtWnh6OEJOZVBrN292QjhWS0VMeEZhM2JGNW9ZSTd5SmdxZXQ2Z3Axa0JDVmkxNDVNY1RySnNSd3BCREtrblZjT0hzNnpJaHBKeEhSX3ZsaUJ1S3NzVlRjZjM0bnMwSFhxYmFad3FKQjl5ZHRSV2JqZ1kzZnF3a295OWM4ejk2M01rMkFCZGJ5dlZrSWNCajQyOUgyZlNaMTFEamlyYmZONUtTeTNnUW5TNE9kc3dVY1pIbUVpQXBTWmV0WWNnc0NFT1VJQ0N4SEJVUThSdEdBNkwzY0ZtdnhYT0xzMlJyUi1MY2lyOUZfRVVIQ2lFaVUyOTlWdHZTUk1tV3BCalRFMUg4UG5LVXVDVTlCRlpRQ3hlSTlrTERjQnJiTW5kQUhORTNhY1RoYnJPRkZtOWpKZmNJaVRMRFgzLUkxMFh3djhWRlZoV242OHAyZ0lpUXFGUjdnOVNrSmJ3SmFIS3B0cjg3MmtBMzc4aXVlRXY1RDhxM3gzOXAtM3BmVFhCN1ZMNWtRcXZ1WE45X1lxSUN0MXNTRUJHNlNMdXhqRDJtS2ZxY2FuZjFUTzBkeWljY25xS196Z1pIdG1GbE12aW80Zy1VUHJvUW4xRkEwNHZsbWtoRDFHZURyVmtzZmxDVk5GeUpzc284a2hMZVJSU0hKMzIxZ1pkbFc3M3VqckpkbzZBWHZubmF0Z042ZHFRQjUzemluaFFBalhVbmtONW9rMFEzczJ3V2hnTEpfWFRKckFaR2Vybk5iV0c5cEdXcFJlX1V3UVhHcE9tMjF3cFdrREdrXzFCQTlIT2QzdFJpSlFDcmVNR1dpSFFuT0h6TmRMNnNfbFZmQnFYb3hqWFgxSklubERUNE9ZQmp5bksySldpOGZxeXY0YTFBZjhTdUdyVXRqa3Q4RnZsRW9UVXhxNW9lLW42cnd0c25EcmNYR2xQRDZ2OWpUTTVYZ2EwQzdCVms4cFZkZnBrS1RvbE5EMTlIZG9venBkeHBjdHAwX01Ub2g3MFU4c3pIMnZTdExuSWRoZ19iQloyVXZtclozaEZpQWRsUFFLYVF2M2N0VzJRS0NHT0xZTXZGUlFRTTdqRmhQTzBtNDd1V1U3bHZPRWpvYWNrd0NDdy1nclBldWxrMTZnN1lmWGM1UW0wRVhTZG1xTHpfT05TWWZ2MGxnZG04YTdRQW9qY0Z1eDJkN2J0UTdhVTladmtvYzhZX29oNVVBQUVxU2p2YmxtWVdTR05qa0FRcEZBeW1oNHhOY0JsMUpCSktDdVRfLVQ4QlhRbnpsWlpfMDZnSHdwcGlkRmRrYVhNWkNVYUtLXzVzWkhiZFQ0X0tSb2JuRFFaVjdhWGdjalRXZU94X1ZyRnMwaUF2Z1A2YVJiblRjTzRmdUptcVpROFFTeTF4LWwxTUhXQ3Zwa1NXVzlrcXR3Z3BEeGNTM1dfWlF3ZG9JNS1ZTlMyR3VPa3NFVE11YjE2U0xvMG9McElNQzFQcVR4UXZrY2pfMUxvdWVsYzYtMkd4eTg4ZGpmeWRKUGlsMms3bk5NWlZqNENnN3UxcEQzeHVqRnlyWkhvdzYzNVlxS2diaXQtWGc0MGExdWRVeXNHSVk1ZFFfdm1JTk1aclVKU0FwTTB2NkJQWFJheVRtVEttSjQtcXFIYXd6WWVyTERpbHNtOWxQZ1lJZFBPNnYteFlLUHVxME1UUFRzZm1JeU5lN0tmN3M0ZDVKaU4zcVJzWF9PaTMzY2NDYk40MXlEUHM5TjlIM0lCUVl6VlhfcTczNnlfNjZNOUhVQm1fY3oxQThIMVJxVC00QklkbE9GYVVMdFpFNlBIaEgyN3c2VlZIaXBjQVZTelVrYm14Z0VyYzJ3aU9OOU9XU29NOGxabTNCLVJEaTU2T3dtSXpiNUUzTUFhaTJHRENXeHdCak5ISTBURDRLNzF1THFUWXlFbXM2MExoRnE2M3dIc193Y2sySVkxRTdJQWV3ZjJSRV92OXMyYWtKZ2ZsZzNwendQUWxwWDMwWGF2QmJzS1Q2ZXdqWTlBUzVIN3cyQ3NnOFdXTDI5WWtXMVhIdG8yRzVWSnNuMzE4clJrd3ZLelBlRU9TSmI2WVhUbHJsNXU5d0xaTzJBTDRvV21sbTd6UnFteGhhdkk4Snc1VUFFMzRvUHhzbS1FcTVNMUs4WHpWOTdweW9nMzVidlpvTnJBRF9TNXFyTVRoV2N1MjhOXzVoajl5VkFUeEttcUNTM041dXFlMmlFbFVzc19Qb1VtYmlGbGpEM3V4NTIyMTJxM2ViV2pfWDVPelVoQ3JTalljVTJ1Y2xuRXpQYTBRdzlCQ2hNcW9fdVNxNWloblNZaDZDdkNkcHVGenJteGNJT1pDSFozY2VnSmRVY3dubEJIeFdPbzZzdGpjanhoUjd5bm54V0IweG1ndDM3anFrX3MtVFNNeWxnWk4xUkJZWHhRb3EyYjlmYzFFdjl6MEN4dWZhemZTUjJKWk1pQjRjaW12TmsyZlVHNkxFZkw1SXZ2T2lGd25OX1A3UnpwVGxtQWhmV2dPQ0JnTHpRWWVlNExqYXZXc3ZTQ1VqTWJGcU96U0hnQXV1TzZxOEhzaGF5Z0k0cWF0Tms5Z3VXWDBqaXFEQkRFLWE2OGY1VTUtVGREbnJWQTFQZEdGODVHVC1ZV3BfWkZybWp3ZmVoY1h1WHYtdDkzdkxrUl9ONGlIM01RQWJVSHZVVHBiNUxod3NOTkVxTmtxN0tRNE80X083dlI1VlJscFkxakp3cWxIS3NKa2NBTGZldFZOMHREcnhEWXh4ZDNFWUh0enRjUmh0UUdSWEFGaHBYWlN4aTJmYy5ka0VQM0hkRkg3bU1NZE91ZEUzVDNhdl9kTlgxWUEwWG9heFJoajJIMmFha0FSMkNxQjltRXBhenIyMzl3UlJ2eG81ckhLZVhmN01lX2FiZGE1YmxVZw==',
         '_eventId': 'submit',
         'geolocation': '',
     }
-    from curl_cffi import requests
-    response1 = requests.post('https://login.supercard.ch/cas/login', data=data, headers=headers, cookies=cookies, proxy=PROXY, impersonate='chrome133a')
-    print('curl_cffi: ', response1.status_code)
-    
-    from primp import Client
-    client = Client(impersonate='chrome_133', impersonate_os='windows', proxy=PROXY)
-    response2 = client.post('https://login.supercard.ch/cas/login', data=data, headers=headers, cookies=cookies)
-    print('primp: ', response2.status_code)
-    
-    response3 = tls_post('https://login.supercard.ch/cas/login', data=data, headers=headers, cookies=cookies, proxy=PROXY)
-    print('tls_forward: ', response3.status_code)
-
-    from cronet_client import CronetClient, Proxy
-    def get_proxy():
-        return Proxy(
-                host='gw.dataimpulse.com',
-                port=random_port,
-                username='1dd65e2258b9eb99041a__cr.us',
-                password='32971dbeaa7b40c9'
-            )
-    
-    with CronetClient(proxy=get_proxy()) as client:
-        response4 = client.post(
-            'https://login.supercard.ch/cas/login',
-            headers=headers,
-            data=data,
-            cookies=cookies # 初始 cookie
-        )
-        print('cronet: ', response4.status_code)
-
-    import requests_go
-    response5 = requests_go.post('https://login.supercard.ch/cas/login', data=data, headers=headers, cookies=cookies, proxies={'http':PROXY,'https':PROXY}, 
-        tls_config=requests_go.tls_config.TLS_CHROME_LATEST
-    )
-    print(f"requests_go: {response5.status_code}")
-
+    from tls_client import Session
+    session = Session(client_identifier='chrome_120', random_tls_extension_order=True, header_order=[key for key in headers.keys()])
+    session.proxies = {
+        'http': PROXY,
+        'https': PROXY
+    }
+    response = session.post(url, data=data, cookies=cookies, headers=headers)
+    print('tls_client: ', response.status_code)
 
 if __name__ == '__main__':
     from concurrent.futures import ThreadPoolExecutor
-    executer = ThreadPoolExecutor(max_workers=10)
-    for _ in range(1):
+    executer = ThreadPoolExecutor(max_workers=5)
+    for _ in range(1000):
         executer.submit(main)
