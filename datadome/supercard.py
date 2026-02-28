@@ -13,12 +13,6 @@ random_port = random.randint(10000, 20000)
 PROXY = f'http://username:password@host:port'
 print(PROXY)
 
-BASE_URL = "https://nig.riskbypass.com"  # API base URL
-TOKEN    = "ADMIN_JM4UdENPyOiiLoGEwmzsHVZ06LumsDgr"    # Access token (sent as x-api-key)
-TIMEOUT  = 60                         # Timeout (seconds)
-random_port = random.randint(10000, 20000)
-PROXY = f"http://1dd65e2258b9eb99041a__cr.ch:32971dbeaa7b40c9@gw.dataimpulse.com:{random_port}"
-print(PROXY)
 
 def run_task(payload):
     def print(*args, **kwargs):
