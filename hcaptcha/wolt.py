@@ -137,7 +137,7 @@ class MyResponse:
 if __name__ == "__main__":
     # Task JSON payload
     payload = {
-        "task_type": "hcaptcha",
+        "task_type": "hcaptcha_pro",
         "proxy": PROXY,
         "target_url": "https://wolt.com/",
         "site_key": "85fed6af-162f-4a66-a7ab-8822a7d81f72",

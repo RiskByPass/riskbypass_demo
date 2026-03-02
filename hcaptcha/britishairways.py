@@ -73,7 +73,7 @@ def run_task(payload):
 if __name__ == "__main__":
     # Task JSON payload
     payload = {
-        "task_type": "hcaptcha",
+        "task_type": "hcaptcha_pro",
         "proxy": PROXY,
         "target_url": "https://accounts.britishairways.com/",
         "site_key": "4d2f4c72-52aa-49f1-8838-fd0f962d0c10"

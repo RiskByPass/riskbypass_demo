@@ -70,7 +70,7 @@ def run_task(payload):
 
 if __name__ == "__main__":
     payload = {
-        "task_type": "hcaptcha",
+        "task_type": "hcaptcha_pro",
         "proxy": PROXY,
         "target_url": "https://accounts.evernote.com/login-with-password",
         "site_key": "9236f198-f154-4aa9-8f4d-2e7ce9aedb5b"
