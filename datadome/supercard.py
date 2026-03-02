@@ -8,11 +8,6 @@ from json import dumps as json_dumps
 BASE_URL = "https://riskbypass.com"  # api端口地址
 TOKEN = "your token"  # 访问令牌（作为 x-api-key 发送）
 TIMEOUT = 60  # 超时时间（秒）
-PROXY = f'http://username:password@host:port'
-random_port = random.randint(10000, 20000)
-PROXY = f'http://username:password@host:port'
-print(PROXY)
-
 
 def run_task(payload):
     def print(*args, **kwargs):
@@ -142,7 +137,10 @@ class RiskbypassResponse:
 
 def main():
     random_port = random.randint(10000, 20000)
-    PROXY = f"http://xxxxxxxxxxxxx__cr.us:xxxxxxxxxxxxxxx@gw.dataimpulse.com:{random_port}"
+    PROXY = f"http://xxxxxxxxxxxxx__cr.us:xxxxxxxxxxxxxxxx@gw.dataimpulse.com:{random_port}"
+    if 'xxxxxxxxxxxxx__cr' in PROXY:
+        print('PROXY is not valid')
+        return
     print(PROXY)
     payload = {
         "task_type": "datadome-slider",
@@ -158,6 +156,7 @@ def main():
     headers = {
         "Host": "login.supercard.ch",
         "Connection": "keep-alive",
+        "Content-Length": "4393",
         "Cache-Control": "max-age=0",
         "sec-ch-device-memory": "8",
         "sec-ch-ua": '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"',
@@ -193,11 +192,12 @@ def main():
         'http': PROXY,
         'https': PROXY
     }
+    del headers['Content-Length']
     response = session.post(url, data=data, cookies=cookies, headers=headers)
     print('tls_client: ', response.status_code)
 
 if __name__ == '__main__':
     from concurrent.futures import ThreadPoolExecutor
     executer = ThreadPoolExecutor(max_workers=5)
-    for _ in range(1000):
+    for _ in range(1):
         executer.submit(main)
