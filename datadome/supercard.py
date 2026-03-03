@@ -137,7 +137,7 @@ class RiskbypassResponse:
 
 def main():
     random_port = random.randint(10000, 20000)
-    PROXY = f"http://xxxxxxxxxxxxx__cr.us:xxxxxxxxxxxxxxxx@gw.dataimpulse.com:{random_port}"
+    PROXY = f"http://xxxxxxxxxxxxx__cr.ch:xxxxxxxxxxxxxxxx@gw.dataimpulse.com:{random_port}"
     if 'xxxxxxxxxxxxx__cr' in PROXY:
         print('PROXY is not valid')
         return
