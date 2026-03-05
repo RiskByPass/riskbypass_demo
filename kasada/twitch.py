@@ -16,9 +16,9 @@ def get_ct():
     payload = {
         "task_type": "kasada",
         "proxy": PROXY,
-        "target_url": "https://www.twitch.tv/",
+        "target_url": "https://passport.twitch.tv/",
         "protected_api_domain": "passport.twitch.tv",
-        "kasada_js_domain": "k.twitchcdn.net"
+        "kasada_js_domain": "passport.twitch.tv"
     }
 
     session = requests.Session()
