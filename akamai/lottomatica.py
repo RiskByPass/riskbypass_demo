@@ -12,7 +12,6 @@ TIMEOUT  = 120                         # Max task execution time (seconds), exce
 
 
 def task():
-    PROXY = f"http://xxxxxxxxxxx__cr.it:xxxxxxxxxxxxx@gw.dataimpulse.com:{random.randint(10000, 20000)}"
     headers = {
         'accept': 'application/json, text/plain, */*',
         'accept-language': 'en',
@@ -34,6 +33,7 @@ def task():
         'x-idcanale': '1',
         'x-verticale': '206',
     }
+    PROXY = f"http://xxxxxxxxxxxxxxxx__cr.it:xxxxxxxxxxxxxxxx@gw.dataimpulse.com:{random.randint(10000, 20000)}"
     response = requests.get('https://www.lottomatica.it/', proxies={'https':PROXY}, headers={
     'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
     'accept-language': 'en',
@@ -85,7 +85,7 @@ def task():
         'CodiceTransazione': 'd2002ad5-4c10-4472-a5de-463c8438e383',
     }
     
-    response = requests.post('https://www.lottomatica.it/api/pam/account/login', cookies=cookies, headers=headers, json=json_data, proxies={'https':PROXY})
+    response = client.tls_post('https://www.lottomatica.it/api/pam/account/login', cookies=cookies, headers=headers, json=json_data, proxies={'https':PROXY})
     print(response.text)
 
 if __name__ == '__main__':
