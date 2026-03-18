@@ -3,7 +3,7 @@
 # Deps: pip install riskbypass
 import json, random
 from riskbypass import RiskByPassClient
-import cycronet as requests
+from curl_cffi import requests
 import re
 
 BASE_URL = "https://riskbypass.com"  # API base URL
