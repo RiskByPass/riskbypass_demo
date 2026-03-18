@@ -4,6 +4,7 @@
 import json, random
 from riskbypass import RiskByPassClient
 import cycronet as requests
+import re
 
 BASE_URL = "https://riskbypass.com"  # API base URL
 TOKEN    = "your token"    # Access token (sent as x-api-key)
@@ -11,6 +12,7 @@ TIMEOUT  = 120                         # Max task execution time (seconds), exce
 
 
 def task():
+    PROXY = f"http://xxxxxxxxxxx__cr.it:xxxxxxxxxxxxx@gw.dataimpulse.com:{random.randint(10000, 20000)}"
     headers = {
         'accept': 'application/json, text/plain, */*',
         'accept-language': 'en',
@@ -32,7 +34,6 @@ def task():
         'x-idcanale': '1',
         'x-verticale': '206',
     }
-    PROXY = f"http://xxxxxxxxxxx__cr.it:xxxxxxxxxxxxxx@gw.dataimpulse.com:{random.randint(10000, 20000)}"
     response = requests.get('https://www.lottomatica.it/', proxies={'https':PROXY}, headers={
     'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
     'accept-language': 'en',
@@ -50,6 +51,7 @@ def task():
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36',
 })
     init_cookies = response.cookies.get_dict()
+    akamai_js_url = re.findall(r'<script type="text/javascript"  src="(.*?)"', response.text)[-1]
     # Task JSON payload
     payload = json.loads(r"""
     {
@@ -61,7 +63,8 @@ def task():
     }
     """)
     payload["proxy"] = PROXY
-    payload["init_cookies"] = init_cookies # must add this params
+    payload["init_cookies"] = init_cookies # must add this params !!!
+    payload["akamai_js_url"] = 'https://www.lottomatica.it' + akamai_js_url
     # Initialize client
     client = RiskByPassClient(token=TOKEN, base_url=BASE_URL)
     # Run task
@@ -86,10 +89,10 @@ def task():
     print(response.text)
 
 if __name__ == '__main__':
-    from concurrent.futures import ThreadPoolExecutor
+    from concurrent.futures import ThreadPoolExecutor, as_completed
     executor = ThreadPoolExecutor(max_workers=10)
     tasks = []
     for i in range(100):
-        tasks.append(executor.submit(task))
+        executor.submit(task)
     input()
     
