@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 # 由 RiskByPass 面板自动生成
 # 依赖: pip install riskbypass
-import random
+import random, re
 from riskbypass import RiskByPassClient
+from requests_go import Session
+from requests_go.tls_config import TLS_CHROME_LATEST
 
 BASE_URL = "https://riskbypass.com"  # api端口地址
 TOKEN    = "your token"    # 访问令牌（作为 x-api-key 发送）
 TIMEOUT  = 120                         # 任务最大执行时间（秒）, 超出此时间将抛出异常
-PROXY = f"http://xxxxxxxxxxxx__cr.de:xxxxxxxxxxxxx@gw.dataimpulse.com:{random.randint(10000, 20000)}"
+PROXY = f"http://xxxxxxxxxxxxx__cr.de:xxxxxxxxxxxxxxxx@gw.dataimpulse.com:{random.randint(10000, 20000)}"
 
 client = RiskByPassClient(token=TOKEN, base_url=BASE_URL)
 
@@ -33,8 +35,12 @@ params = {
     'source_uri': 'https://www.mobile.de/',
 }
 
-response = client.tls_get('https://www.mobile.de/api/auth/login', params=params, headers=headers, proxies={'https': PROXY})
-init_cookies = response.cookies
+session = Session()
+session.tls_config = TLS_CHROME_LATEST
+
+response = session.get('https://id.mobile.de/oidc/authorize', headers=headers, proxies={'https': PROXY})
+init_cookies = session.cookies.get_dict()
+
 akamai_payload = {
   "task_type": "akamai",
   "proxy": "http://username:password@ip:port",
@@ -44,6 +50,7 @@ akamai_payload = {
 }
 akamai_payload['proxy'] = PROXY
 akamai_payload['init_cookies'] = init_cookies
+akamai_payload['akamai_js_url'] = 'https://id.mobile.de' + re.findall(r'<script type="text/javascript" nonce=".*?" src="(.*?)">', response.text)[-1]
 result = client.run_task(akamai_payload, timeout=TIMEOUT)
 
 cookies = result.get('cookies_dict')
