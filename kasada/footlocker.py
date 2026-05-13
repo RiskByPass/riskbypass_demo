@@ -16,6 +16,7 @@ def get_ct():
         "target_url": "https://www.footlocker.fr/fr/product/nike-x-fff-air-max-tuned-1-homme-chaussures/314218233204.html",
         "protected_api_domain": "www.footlocker.fr",
         "kasada_js_domain": "www.footlocker.fr",
+        "pm": "italy"
     }
 
     session = requests.Session()
