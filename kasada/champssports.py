@@ -15,8 +15,7 @@ def get_ct():
         "proxy": PROXY,
         "target_url": "https://www.champssports.com/",
         "protected_api_domain": "www.champssports.com",
-        "kasada_js_domain": "www.champssports.com",
-        "pm": "us"
+        "kasada_js_domain": "www.champssports.com"
     }
 
     session = requests.Session()
