@@ -1,33 +1,44 @@
 # -*- coding: utf-8 -*-
-# UPS Login demo — Akamai Bot Manager bypass via RiskByPass
+import random
 import re
+import time
+from urllib.parse import urljoin
+
 from riskbypass import RiskByPassClient
-from requests_go import Session
-from requests_go.tls_config import TLS_CHROME_LATEST
+from cycronet import CronetClient
+
 
 BASE_URL = "https://riskbypass.com"
-TOKEN    = "your_token"
-TIMEOUT  = 120
-PROXY    = "http://user:pass@host:port"
-
-client = RiskByPassClient(token=TOKEN, base_url=BASE_URL)
+TOKEN = "your_token"
+TIMEOUT = 120
 
 UPS_HOME       = "https://www.ups.com/us/en/home"
+UPS_LASSO      = "https://www.ups.com/lasso/login?loc=en_US"
 UPS_LOGIN_PAGE = "https://id.ups.com/u/login/identifier"
 UPS_LOGIN_POST = "https://id.ups.com/u/login/password"
 
-USERNAME = "your_email@example.com"
-PASSWORD = "your_password"
+EMAIL = "asdasd@sds.com"
+PASSWORD = "sadasd2131."
 
-PAGE_FP = "424541475255404d4b4546454b5d5655405a425f4245434752555d505f5e4345435052555d505f435e595f595349484d414242515f5b59"
-DEFAULT_UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36"
+PAGE_FP = "424541475255404d5e425e51455f4e484b505f415e595f5b4e4148525f4b4a5a5f5b59495c4c425f42454347504840595f4143594b475242"
+DEFAULT_UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36"
+
+client = RiskByPassClient(token=TOKEN, base_url=BASE_URL)
 
 
-def parse_ua(ua: str):
-    version = "148"
-    m = re.search(r'Chrome/(\d+)', ua)
+def make_proxy():
+    return f"http://user:pass@host:port"
+
+
+def extract_sbsd_js_url(html, base_url):
+    m = re.search(r'<script[^>]*\bsrc="(/[^"?]+\?v=[^"]+)"[^>]*defer', html)
     if m:
-        version = m.group(1)
+        return urljoin(base_url, m.group(1))
+    return None
+
+def parse_ua(ua):
+    m = re.search(r'Chrome/(\d+)', ua)
+    version = m.group(1) if m else "149"
     if "Macintosh" in ua or "Mac OS X" in ua:
         platform = "macOS"
     elif "Linux" in ua and "Android" not in ua:
@@ -37,14 +48,15 @@ def parse_ua(ua: str):
     return version, platform
 
 
-def build_headers(ua, referer=None, content_type=None):
+def build_headers(ua, referer=None, content_type=None, origin=None):
     version, platform = parse_ua(ua)
-    sec_ch_ua = f'"Chromium";v="{version}", "Google Chrome";v="{version}", "Not/A)Brand";v="99"'
-    headers = {
+    sec_ch_ua = f'"Chromium";v="{version}", "Google Chrome";v="{version}", "Not_A Brand";v="99"'
+    h = {
         "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
-        "accept-language": "en,en-US;q=0.9",
+        "accept-language": "zh-CN,zh;q=0.9,en;q=0.8",
         "cache-control": "no-cache",
         "pragma": "no-cache",
+        "priority": "u=0, i",
         "sec-ch-ua": sec_ch_ua,
         "sec-ch-ua-mobile": "?0",
         "sec-ch-ua-platform": f'"{platform}"',
@@ -56,108 +68,173 @@ def build_headers(ua, referer=None, content_type=None):
         "user-agent": ua,
     }
     if referer:
-        headers["referer"] = referer
-        headers["sec-fetch-site"] = "same-origin"
+        h["referer"] = referer
+        h["sec-fetch-site"] = "same-origin"
+    if origin:
+        h["origin"] = origin
     if content_type:
-        headers["content-type"] = content_type
-    return headers
+        h["content-type"] = content_type
+    return h
 
 
-def extract_akamai_js_url(html, domain="https://id.ups.com"):
-    scripts = re.findall(r'<script[^>]*src="([^"]+)"[^>]*>', html)
-    for src in reversed(scripts):
-        if src.startswith("/") and len(src) > 30 and "." not in src.split("/")[-1]:
-            return domain + src
-    return "https://id.ups.com/5X7GjEHC/HsXgaSx/pbgI9Nv/uT/7D1V4SEYhi7OpSfi/MHNfInI/QjYwJ/XBiO2IB"
+def extract_akamai_js_url(html, base_url):
+    scripts = re.findall(r'<script[^>]*\bsrc="([^"]+)"[^>]*>', html)
+    candidates = []
+    for src in scripts:
+        if not src.startswith("/"):
+            continue
+        path = src.split("?")[0]
+        last = path.rsplit("/", 1)[-1]
+        if "." in last:
+            continue
+        if path.count("/") < 4 or len(path) < 30:
+            continue
+        candidates.append(src)
+    if not candidates:
+        return None
+    src = candidates[-1]
+    return urljoin(base_url, src)
 
 
-def main():
-    session = Session()
-    session.tls_config = TLS_CHROME_LATEST
-    proxies = {"https": PROXY}
-
-    # Step 1: Visit login page via Session (preserves cookies through redirects)
-    print("=" * 50)
-    print("[Step 1] Get Auth0 login page")
-    print("=" * 50)
-
-    resp = session.get(UPS_HOME, headers=build_headers(DEFAULT_UA), proxies=proxies)
-    print(f"    Home HTTP {resp.status_code}")
-
-    login_url = None
-    m = re.search(r'href="([^"]*(?:lasso/login|lasso/signin)[^"]*)"', resp.text, re.I)
+def extract_state(url, html=""):
+    m = re.search(r'state=([^&"\']+)', url)
     if m:
-        url = m.group(1)
-        login_url = url if url.startswith("http") else "https://www.ups.com" + url
-    login_url = login_url or (UPS_LOGIN_PAGE + "?ui_locales=en")
-    print(f"    login_url: {login_url[:100]}...")
+        return m.group(1)
+    m = re.search(r'<input[^>]*name="state"[^>]*value="([^"]+)"', html)
+    if m:
+        return m.group(1)
+    m = re.search(r'"state"\s*:\s*"([^"]+)"', html)
+    if m:
+        return m.group(1)
+    return None
 
-    for attempt in range(3):
-        try:
-            resp = session.get(login_url, headers=build_headers(DEFAULT_UA, referer=UPS_HOME), proxies=proxies)
-            break
-        except Exception as e:
-            print(f"    attempt {attempt+1} failed: {str(e)[:80]}")
-            if attempt == 2:
-                print("[-] Failed to reach login page")
-                return
-    print(f"    Login page HTTP {resp.status_code}")
-    print(f"    URL: {resp.url[:120]}...")
 
+def solve_akamai(session, target_resp, proxy, label):
+    js_url = extract_akamai_js_url(target_resp.text, target_resp.url)
+    if not js_url:
+        print(f"  [{label}] 找不到 akamai js url")
+        print(target_resp.text[:400])
+        return None, None
     init_cookies = session.cookies.get_dict()
-    print(f"    init_cookies: {list(init_cookies.keys())}")
-
-    # extract state
-    state = None
-    m = re.search(r'state=([^&"\']+)', resp.url)
-    if m:
-        state = m.group(1)
-    if not state:
-        m = re.search(r'<input[^>]*name="state"[^>]*value="([^"]+)"', resp.text)
-        if m:
-            state = m.group(1)
-    if not state:
-        print("[-] Could not extract state param")
-        print(f"    Body: {resp.text[:500]}")
-        return
-    print(f"    state: {state[:50]}...")
-
-    akamai_js_url = extract_akamai_js_url(resp.text)
-    print(f"    akamai_js_url: {akamai_js_url}")
-
-    target_url = f"{UPS_LOGIN_PAGE}?state={state}&ui_locales=en"
-
-    # Step 2: Solve Akamai
-    print("\n" + "=" * 50)
-    print("[Step 2] Solve Akamai")
-    print("=" * 50)
-    akamai_result = client.run_task({
+    print(f"  [{label}] target_url = {target_resp.url[:100]}")
+    print(f"  [{label}] akamai_js  = {js_url[:100]}")
+    print(f"  [{label}] init_cookies = {list(init_cookies.keys())}")
+    result = client.run_task({
         "task_type": "akamai",
-        "proxy": PROXY,
-        "target_url": target_url,
-        "akamai_js_url": akamai_js_url,
+        "proxy": proxy,
+        "target_url": target_resp.url,
+        "akamai_js_url": js_url,
+        "sbsd_js_url": extract_sbsd_js_url(target_resp.text, target_resp.url),
         "page_fp": PAGE_FP,
         "init_cookies": init_cookies,
     }, timeout=TIMEOUT)
-    if not akamai_result:
-        print("[-] Akamai solve failed")
-        return
-    solved_cookies = akamai_result.get("cookies_dict") or akamai_result.get("cookies", {})
-    ua = akamai_result.get("ua", DEFAULT_UA)
-    print(f"[+] Akamai OK, cookies: {list(solved_cookies.keys())}")
-    print(f"    ua: {ua}")
+    if not result:
+        return None, None
+    cookies = result.get("cookies_dict") or result.get("cookies", {})
+    ua = result.get("ua")
+    print(f"  [{label}] solved, _abck={(cookies.get('_abck') or '')[:50]}...")
+    return cookies, ua
 
-    # inject solver cookies into session
-    for k, v in solved_cookies.items():
+
+def is_akamai_challenge(resp):
+    return ("sec-if-cpt-container" in resp.text
+            or "bm-verify" in resp.text
+            or "akamai" in resp.text.lower() and "<script" in resp.text and len(resp.text) < 4000)
+
+
+def main(proxy):
+    """返回最后一步的 HTTP 状态码（int），异常/中途失败返回 None"""
+    proxies = {"http": proxy, "https": proxy}
+    session = CronetClient(
+        chrometls="chrome_147",
+        proxies=proxies,
+        verify=False,
+        timeout_ms=30000,
+    )
+    ua = DEFAULT_UA
+
+    print("=" * 60)
+    print("[Step 1] Home")
+    print("=" * 60)
+    resp = session.get(UPS_HOME, headers=build_headers(ua), timeout=30)
+    print(f"  HTTP {resp.status_code}  URL={resp.url[:80]}")
+    print(f"  cookies: {list(session.cookies.get_dict().keys())}")
+
+    print("\n" + "=" * 60)
+    print("[Step 2] /lasso/login (过 www.ups.com 的 Akamai)")
+    print("=" * 60)
+    resp = session.get(UPS_LASSO,
+                       headers=build_headers(ua, referer=UPS_HOME),
+                       timeout=30, allow_redirects=True)
+    print(f"  HTTP {resp.status_code}  URL={resp.url[:120]}")
+
+    if "id.ups.com" not in resp.url:
+        if not is_akamai_challenge(resp):
+            print(f"[-] 既没跳到 id.ups.com 又不像挑战页，body:\n{resp.text[:600]}")
+            return None
+        print("  → 命中 www.ups.com Akamai 挑战，开始 solve")
+        cookies, new_ua = solve_akamai(session, resp, proxy, "www.ups.com")
+        if not cookies:
+            print("[-] www.ups.com Akamai solve 失败")
+            return None
+        for k, v in cookies.items():
+            session.cookies.set(k, v)
+        if new_ua:
+            ua = new_ua
+
+        resp = session.get(UPS_LASSO,
+                           headers=build_headers(ua, referer=UPS_HOME),
+                           timeout=30, allow_redirects=True)
+        print(f"  retry HTTP {resp.status_code}  URL={resp.url[:120]}")
+        if "id.ups.com" not in resp.url:
+            print("[-] 过完 www Akamai 仍未跳到 id.ups.com")
+            print(resp.text[:600])
+            return None
+
+    print("\n" + "=" * 60)
+    print("[Step 3] id.ups.com identifier 页 (过 id.ups.com 的 Akamai)")
+    print("=" * 60)
+
+    if is_akamai_challenge(resp):
+        print("  → 命中 id.ups.com Akamai 挑战，开始 solve")
+        cookies, new_ua = solve_akamai(session, resp, proxy, "id.ups.com (challenge)")
+        if not cookies:
+            print("[-] id.ups.com Akamai solve 失败")
+            return None
+        for k, v in cookies.items():
+            session.cookies.set(k, v)
+        if new_ua:
+            ua = new_ua
+        resp = session.get(resp.url,
+                           headers=build_headers(ua, referer=UPS_HOME),
+                           timeout=30, allow_redirects=True)
+        print(f"  retry HTTP {resp.status_code}  URL={resp.url[:120]}")
+
+    state = extract_state(resp.url, resp.text)
+    if not state:
+        print("[-] 拿不到 state")
+        print(resp.text[:600])
+        return None
+    print(f"  state: {state[:60]}...")
+
+    print("  → 正常 identifier 页，对 id.ups.com 再 solve 一次拿业务态 _abck")
+    cookies, new_ua = solve_akamai(session, resp, proxy, "id.ups.com (form)")
+    if not cookies:
+        print("[-] id.ups.com 业务态 Akamai solve 失败")
+        return None
+    for k, v in cookies.items():
         session.cookies.set(k, v)
+    if new_ua:
+        ua = new_ua
 
-    # Step 3: Submit username
-    print("\n" + "=" * 50)
-    print("[Step 3] Submit username")
-    print("=" * 50)
+    identifier_url = f"{UPS_LOGIN_PAGE}?state={state}&ui_locales=zh-CN"
+
+    print("\n" + "=" * 60)
+    print("[Step 4] POST username")
+    print("=" * 60)
     form_data = {
         "state": state,
-        "username": USERNAME,
+        "username": EMAIL,
         "js-available": "true",
         "webauthn-available": "true",
         "is-brave": "false",
@@ -165,31 +242,33 @@ def main():
         "action": "default",
     }
     resp = session.post(
-        target_url,
-        headers=build_headers(ua, referer=target_url, content_type="application/x-www-form-urlencoded"),
+        identifier_url,
+        headers=build_headers(ua, referer=identifier_url,
+                              content_type="application/x-www-form-urlencoded",
+                              origin="https://id.ups.com"),
         data=form_data,
-        proxies=proxies,
+        timeout=30,
+        allow_redirects=True,
     )
-    print(f"    HTTP {resp.status_code}")
-    print(f"    URL: {resp.url[:120]}...")
+    print(f"  HTTP {resp.status_code}  URL={resp.url[:120]}")
 
-    if '/login/password' not in resp.url and '/login/password' not in resp.text:
-        print(f"    Not redirected to password page (invalid username or blocked)")
-        print(f"    Body: {resp.text[:300]}")
-        return
-    print("    → password page")
+    if "/login/password" not in resp.url and "/login/password" not in resp.text:
+        print("[-] 没进入 password 页（用户名无效 或 被风控）")
+        print(resp.text[:600])
+        return resp.status_code
 
-    m = re.search(r'state=([^&"\']+)', resp.url)
-    if m:
-        state = m.group(1)
+    new_state = extract_state(resp.url, resp.text)
+    if new_state:
+        state = new_state
+    print(f"  state (post-identifier): {state[:60]}...")
 
-    # Step 4: Submit password
-    print("\n" + "=" * 50)
-    print("[Step 4] Submit password")
-    print("=" * 50)
+    print("\n" + "=" * 60)
+    print("[Step 5] POST password")
+    print("=" * 60)
+    password_url = f"{UPS_LOGIN_POST}?state={state}&ui_locales=zh-CN"
     pw_form_data = {
         "state": state,
-        "username": USERNAME,
+        "username": EMAIL,
         "password": PASSWORD,
         "js-available": "true",
         "webauthn-available": "true",
@@ -197,24 +276,33 @@ def main():
         "webauthn-platform-available": "true",
         "action": "default",
     }
-    password_post_url = f"{UPS_LOGIN_POST}?state={state}&ui_locales=en"
     resp = session.post(
-        password_post_url,
-        headers=build_headers(ua, referer=password_post_url, content_type="application/x-www-form-urlencoded"),
+        password_url,
+        headers=build_headers(ua, referer=password_url,
+                              content_type="application/x-www-form-urlencoded",
+                              origin="https://id.ups.com"),
         data=pw_form_data,
-        proxies=proxies,
+        timeout=30,
+        allow_redirects=True,
     )
-    print(f"    HTTP {resp.status_code}")
-    final_url = resp.url
-    print(f"    URL: {final_url}")
-
-    if 'ups.com' in final_url and 'login' not in final_url:
-        print("\n[+] Login success!")
-        print(f"    Cookies: {list(session.cookies.get_dict().keys())}")
-    else:
-        print(f"\n[-] Login failed")
-        print(f"    Body: {resp.text[:500]}")
+    print(f"  HTTP {resp.status_code}")
+    print(f"  Final URL: {resp.url}")
+    print(f"  Body: {resp.text[:300]}")
+    return resp.status_code
 
 
 if __name__ == "__main__":
-    main()
+    proxy = make_proxy()
+    print(f"proxy={proxy}\n")
+    try:
+        status = main(proxy)
+    except Exception as e:
+        print(f"[!] crashed: {e}")
+        status = None
+
+    if status == 400:
+        print("\n>>> 结果: SUCCESS(400)")
+    elif status == 403:
+        print("\n>>> 结果: FAIL(403)")
+    else:
+        print(f"\n>>> 结果: OTHER({status})")
